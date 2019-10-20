@@ -1,4 +1,5 @@
 #include "Main.h"
+int EnemyHitBox(String);
 
 _enemy::_enemy()
 {
@@ -16,7 +17,7 @@ void _enemy::Hit(int a)
 	hp -= a;
 	if (hp <= 0) Clear();
 }
-bool _enemy::Update()
+bool _enemy::Update(int q)
 {
 	cnt++;
 	//移動、画面外なら消去
@@ -57,4 +58,23 @@ void _enemy::Active(_enemyReady e)
 	 shotCnt = e.shotCnt;
 	      hp = e.hp;
 	    name = e.name;
+		 box = EnemyHitBox(name);
+}
+
+//敵の種類によって当たり判定の大きさを変える
+//画像名は（例：bul0）なので最後を取得する
+int EnemyHitBox(String s)
+{
+	char t = s.back();
+	int r=20;
+	switch (t)
+	{
+	case '0':
+		r = 23;
+		break;
+	case '1':
+		r = 46;
+		break;
+	}
+	return r;
 }

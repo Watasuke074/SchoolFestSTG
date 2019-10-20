@@ -56,6 +56,9 @@ void Register()
 	TextureAsset::Register(U"enemy0_0", U"Data/pic/enemy/enemy0.png");
 	TextureAsset::Register(U"enemy0_1", U"Data/pic/enemy/enemy1.png");
 	TextureAsset::Register(U"enemy0_2", U"Data/pic/enemy/enemy2.png");
+	TextureAsset::Register(U"enemyB_0", U"Data/pic/enemy/enemyB0.png");
+	TextureAsset::Register(U"enemyB_1", U"Data/pic/enemy/enemyB1.png");
+	TextureAsset::Register(U"enemyB_2", U"Data/pic/enemy/enemyB2.png");
 	//Bul
 	TextureAsset::Register(U"bul0", U"Data/pic/bul/bul0.png");
 }

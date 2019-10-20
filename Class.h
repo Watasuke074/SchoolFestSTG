@@ -78,7 +78,7 @@ class _player
 		bullet bul[20];
 		_player();
 		virtual void Clear();
-		virtual bool Update();
+		virtual void Update();
 		virtual void Draw();
 
 		void Hit();
@@ -116,7 +116,7 @@ typedef struct
 
 class _enemy : public _player
 {
-	private:
+	protected:
 		bool f;
 		//出 て か ら  ショットを打つまでの時間
 		int shotCnt;
@@ -124,24 +124,34 @@ class _enemy : public _player
 		int shotKnd, moveKnd;
 		//移動速度
 		double sp;
+		//当たり判定の大きさ
+		int box;
 		//画像名
 		String name;
 	public:
 		_enemy();
 		void Active(_enemyReady);
 		void Clear() override;
-		bool Update() override;
+		bool Update(int);
 		void Draw() override;
 
 		void Hit(int a=1);
 		bool IsActive() { return f;}
 		 int GetCnt() { return cnt; }
+		 int GetBox() { return box; }
 		 int GetShotKnd() { return shotKnd; }
 		 int GetMoveKnd() { return moveKnd; }
 		String GetName() { return name; }
 		double GetSpeed() { return sp; }
 };
-//class _boss : public _player;
+class _boss : public _enemy
+{
+public:
+	void Active();
+	void Clear()  override;
+	void Update() override;
+	void Draw()   override;
+};
 
 
 //弾幕更新時の引数用

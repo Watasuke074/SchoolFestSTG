@@ -32,6 +32,7 @@ private:
 	_player player;
 	_enemy enemy[ENEMY_MAX];
 	_enemyReady enemyReady[ENEMY_READY_MAX];
+	_boss boss;
 	_bulManager bulManager[MANAGER_MAX];
 public:
 	ShootMain() { Init(); };

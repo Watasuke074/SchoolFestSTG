@@ -32,7 +32,7 @@ void _player::Hit()
 	shotTime = 0;
 }
 
-bool _player::Update()
+void _player::Update()
 {
 	beforePos = pos;
 	//key
@@ -126,8 +126,6 @@ bool _player::Update()
 		bul[BulSearch()].Active(Vec2(pos.x+16, pos.y - 64), 0, 32, U"playerBul", 0);
 		shotTime = 0;
 	}else shotTime++;
-
-	return false;
 }
 
 int _player::BulSearch()

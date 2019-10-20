@@ -31,7 +31,6 @@ void ShootMain::UpdateBul()
 			bulManager[i].f = 2;
 		_shot_arg arg{ &bulManager[i], &enemy[bulManager[i].enemy], &player };
 		//XV
-		Print << U"CALL:" << bulManager[i].knd;
 		if(bulManager[i].knd!=-1 && bulManager[i].f == 1)
 			Shot[bulManager[i].knd](arg);
 

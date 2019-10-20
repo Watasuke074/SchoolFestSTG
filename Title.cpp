@@ -12,6 +12,6 @@ void Title::Update()
 }
 void Title::Draw()
 {
-	title(U"めっちゃグレイズする\n超ハイスピード\n弾幕STG（仮）").draw(Arg::topCenter(300, 50));
+	title(U"弾幕STG（名称未確定）").draw(Arg::topCenter(300, 50));
 	FontAsset(U"main")(U"Press Space to Start").drawAt(300, 700, AlphaF(1.0 * Periodic::Jump0_1(3s)));
 }

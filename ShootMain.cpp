@@ -16,6 +16,7 @@ void ShootMain::Init()
 	sTitle.reset();
 	player.Clear();
 	ClearBul(-1);
+	boss.Clear();
 	for (auto i : step(ENEMY_MAX))
 		enemy[i].Clear();
 }
@@ -46,32 +47,36 @@ void ShootMain::Update()
 	Print << cnt;
 	Print << enemy[0].IsActive();
 	player.Update();
+	boss.Update();
 	for (auto i : step(ENEMY_MAX))
 	{
 		bool f=false;
 		if (enemy[i].IsActive())
-			f=enemy[i].Update();
+			f=enemy[i].Update(0);
 		if (f)
 			ActiveBul(i);
 	}
 	for (auto i : step(ENEMY_READY_MAX))
 	{
-		//出現時間になったら
-		if (enemyReady[i].startCnt == cnt)
+		//出現時間になってボスがいないなら
+		if (enemyReady[i].startCnt == cnt && !boss.IsActive())
 		{
 			for (auto j : step(ENEMY_MAX))
 				if (!enemy[j].IsActive())
 				{
+					if (enemyReady[i].name == U"-2")
+						boss.Active();
+					else
+						enemy[j].Active(enemyReady[i]);
 					enemyReady[i].Clear();
-					enemy[j].Active(enemyReady[i]);
 					break;
 				}
 		}
 	}
 	UpdateBul();
-	Draw();
 	HitBox();
 	AudioPlay();
+	Draw();
 	cnt++;
 }
 
@@ -79,6 +84,7 @@ void ShootMain::Draw()
 {
 	Scene::Rect().draw(Palette::Darkcyan);
 	player.Draw();
+	boss.Draw();
 	for (auto i : step(ENEMY_MAX))
 	{
 		if (enemy[i].IsActive())
@@ -160,7 +166,7 @@ void ShootMain::HitBox()
 				{
 					if (enemy[i].IsActive())
 					{
-						enemyBox.setPos(enemy[i].GetPos());
+						enemyBox=Circle(enemy[i].GetPos(),enemy[i].GetBox());
 						//enemyBox.draw(Palette::Skyblue);
 						//敵-自機ショット
 						if (enemyBox.intersects(playerBulBox))

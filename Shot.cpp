@@ -33,8 +33,22 @@ void Shot_00(_shot_arg arg)
 		}
 	}
 }
-//Šp“xŒÅ’èŽ©‹@‘_‚¢˜AŽË
+//Ž©‹@‘_‚¢˜AŽË
 void Shot_01(_shot_arg arg)
+{
+	int cnt = arg.bul->cnt;
+	if (cnt != 0 && cnt < 160 && cnt % 15 == 0)
+	{
+		int j = arg.bul->Search();
+		if (j != -1)
+		{
+			//“o˜^
+			arg.bul->bul[j].Active(arg.e->GetPos(), PlayerAim(arg), 4, U"bul0", Random(0, 9));
+		}
+	}
+}
+//Šp“xŒÅ’èŽ©‹@‘_‚¢˜AŽË
+void Shot_02(_shot_arg arg)
 {
 	int cnt = arg.bul->cnt;
 	if (cnt == 0) arg.bul->ang = PlayerAim(arg);
@@ -49,7 +63,7 @@ void Shot_01(_shot_arg arg)
 	}
 }
 //‰~Œ`‚É”­ŽË
-void Shot_02(_shot_arg arg)
+void Shot_03(_shot_arg arg)
 {
 	int cnt = arg.bul->cnt;
 	if (cnt != 0 && cnt < 180 && cnt % 30 == 0)
@@ -67,7 +81,7 @@ void Shot_02(_shot_arg arg)
 	}
 }
 //‚µ‚Ê‚Ü‚Å‰~Œ`‚É‚¤‚Ä
-void Shot_03(_shot_arg arg)
+void Shot_04(_shot_arg arg)
 {
 	int cnt = arg.bul->cnt;
 	if (cnt != 0 && cnt % 40 == 0)
@@ -85,7 +99,7 @@ void Shot_03(_shot_arg arg)
 	}
 }
 //‚¤‚¸‚Ü‚«‰~Œ`‚É”­ŽË
-void Shot_04(_shot_arg arg)
+void Shot_05(_shot_arg arg)
 {
 	int cnt = arg.bul->cnt;
 	if (cnt != 0 && cnt < 180 && cnt % 10 == 0)
@@ -103,7 +117,7 @@ void Shot_04(_shot_arg arg)
 	}
 }
 //‚·‚±‚µ‚¸‚Â‚¸‚ç‚µ‚Ä‰~Œ`‚É”­ŽË
-void Shot_05(_shot_arg arg)
+void Shot_06(_shot_arg arg)
 {
 	int cnt = arg.bul->cnt;
 	if (cnt == 10)
@@ -122,7 +136,7 @@ void Shot_05(_shot_arg arg)
 	}
 }
 //“G‚Ü‚Åˆê’¼ü‚É‘¬“xˆá‚¢’e
-void Shot_06(_shot_arg arg)
+void Shot_07(_shot_arg arg)
 {
 	int cnt = arg.bul->cnt;
 	if (cnt == 0)
@@ -135,7 +149,62 @@ void Shot_06(_shot_arg arg)
 		}
 	}
 }
+//Œã‚©‚ç‚¾‚ñ‚¾‚ñ‘¬‚¢’e‚ªo‚é
+void Shot_08(_shot_arg arg)
+{
+	int cnt = arg.bul->cnt;
+	if (cnt != 0 && cnt % 2 == 0 && cnt < 14)
+	{
+		int j = arg.bul->Search();
+		if (j != -1)
+		{
+			//“o˜^
+			arg.bul->bul[j].Active(arg.e->GetPos(), PlayerAim(arg), 3+(cnt/2), U"bul0", Random(0, 9));
+		}
+	}
+}
+//3way
+void Shot_09(_shot_arg arg)
+{
+	int cnt = arg.bul->cnt;
+	if (cnt != 0 && cnt < 180 && cnt % 30 == 0)
+	{
+		int i;
+		//“o˜^
 
+		//¶
+		i = arg.bul->Search();
+		if (i != -1)
+			arg.bul->bul[i].Active(arg.e->GetPos(), PlayerAim(arg)-(10*PI / 180), 4, U"bul0", 0);
+		//^‚ñ’†
+		i = arg.bul->Search();
+		if (i != -1)
+			arg.bul->bul[i].Active(arg.e->GetPos(), PlayerAim(arg)              , 4, U"bul0", 0);
+		//‰E
+		i = arg.bul->Search();
+		if (i != -1)
+			arg.bul->bul[i].Active(arg.e->GetPos(), PlayerAim(arg)+(10*PI / 180), 4, U"bul0", 0);
+	}
+}
+//2way
+void Shot_10(_shot_arg arg)
+{
+	int cnt = arg.bul->cnt;
+	if (cnt != 0 && cnt < 180 && cnt % 30 == 0)
+	{
+		int i;
+		//“o˜^
+
+		//¶
+		i = arg.bul->Search();
+		if (i != -1)
+			arg.bul->bul[i].Active(arg.e->GetPos(), PlayerAim(arg)-(5*PI / 180), 4, U"bul0", 0);
+		//‰E
+		i = arg.bul->Search();
+		if (i != -1)
+			arg.bul->bul[i].Active(arg.e->GetPos(), PlayerAim(arg)+(5*PI / 180), 4, U"bul0", 0);
+	}
+}
 
 //------------------------------------//
 //------------------------------------//
@@ -148,5 +217,9 @@ void (*Shot[])(_shot_arg arg) =
 	Shot_03,
 	Shot_04,
 	Shot_05,
-	Shot_06
+	Shot_06,
+	Shot_07,
+	Shot_08,
+	Shot_09,
+	Shot_10
 };

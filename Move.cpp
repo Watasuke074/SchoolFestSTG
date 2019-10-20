@@ -4,12 +4,14 @@ void Move_00(_enemy*);
 void Move_01(_enemy*);
 void Move_02(_enemy*);
 void Move_03(_enemy*);
+void Move_04(_enemy*);
 void (*Move[])(_enemy*) =
 {
 	Move_00,
 	Move_01,
 	Move_02,
-	Move_03
+	Move_03,
+	Move_04
 };
 
 /*テンプレ：追加後は_後数字変更・上の関数ポインタに追加
@@ -34,7 +36,7 @@ void Move_01(_enemy* e)
 {
 	if(e->GetCnt() <= 60)
 		e->MoveY(e->GetSpeed());
-	else if(e->GetCnt() >= 360)
+	else if(e->GetCnt() >= 300)
 		e->MoveY(-(e->GetSpeed() / 2));
 }
 //ただ画面を横に移動するだけ
@@ -49,4 +51,10 @@ void Move_03(_enemy* e)
 		e->MoveX(e->GetSpeed());
 	else if (e->GetCnt() >= 360)
 		e->MoveX(-(e->GetSpeed()));
+}
+//けっこう降りて止まる
+void Move_04(_enemy* e)
+{
+	if (e->GetCnt() <= 120)
+		e->MoveY(e->GetSpeed());
 }

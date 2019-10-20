@@ -8,8 +8,6 @@
 #define PLAYER_SP_FAST 6
 #define PLAYER_SP_SLOW 3
 
-#define SHOT_ARG _bulManager* bul, _enemy* e
-
 #define ENEMY_MAX 20
 //Še–Ê“oê“G‚ÌÅ‘å”
 #define ENEMY_READY_MAX 50
