@@ -4,7 +4,8 @@ int EnemyBulHitBox(String);
 
 void ShootMain::Init()
 {
-	for (auto i : step(2))
+	gameover = false;
+	for (auto i : step(3))
 		SE[i] = false;
 	  cnt = 0;
 	score = 0;
@@ -23,12 +24,16 @@ void ShootMain::Init()
 
 void ShootMain::CSVload(int stage)
 {
+	int p = 0;
 	String a = U"Data/csv/{}.csv"_fmt(stage);
-	int cnt; Vec2 pos; int shotKnd, moveKnd, shotCnt, hp; double sp; String name;
+	int cnt; Vec2 pos; int shotKnd, moveKnd, shotCnt, hp; double sp; String name; Array<double> data;
 	CSVData csv(U"Data/csv/{}.csv"_fmt(stage));
+	data.clear();
 	for (auto i : step(csv.rows()))
 	{
 		if (i < 2) continue;
+		if (csv.get<String>(i, 0).starts_with(U"#")) continue;
+		p++;
 		pos.set(csv.get<int>(i, 0), csv.get<int>(i, 1));
 		    cnt = csv.get<int>(i, 2);
 		shotKnd = csv.get<int>(i, 3);
@@ -37,17 +42,22 @@ void ShootMain::CSVload(int stage)
 		shotCnt = csv.get<int>(i, 6);
 		     hp = csv.get<int>(i, 7);
 		   name = csv.get<String>(i, 8);
-		enemyReady[i-2].SetEnemyReady(cnt, pos, shotKnd, moveKnd, sp, shotCnt, hp, name);
+		   for (auto j : step(csv.columns(i)-8))
+			   data << csv.get<double>(i, 9+j);
+		enemyReady[p].SetEnemyReady(cnt, pos, shotKnd, moveKnd, sp, shotCnt, hp, name, data);
 	}
 }
 
 void ShootMain::Update()
 {
-	if (KeyEscape.down()) Init();
-	Print << cnt;
-	Print << enemy[0].IsActive();
-	player.Update();
-	boss.Update();
+	//if (KeyEscape.down()) Init();
+	if (cnt == 2500)
+	{
+		cnt = 0;
+		CSVload(stage);
+	}
+	//Print << cnt;
+	if(!gameover)player.Update();
 	for (auto i : step(ENEMY_MAX))
 	{
 		bool f=false;
@@ -74,7 +84,7 @@ void ShootMain::Update()
 		}
 	}
 	UpdateBul();
-	HitBox();
+	if(!gameover)HitBox();
 	AudioPlay();
 	Draw();
 	cnt++;
@@ -83,8 +93,7 @@ void ShootMain::Update()
 void ShootMain::Draw()
 {
 	Scene::Rect().draw(Palette::Darkcyan);
-	player.Draw();
-	boss.Draw();
+	if(!gameover) player.Draw();
 	for (auto i : step(ENEMY_MAX))
 	{
 		if (enemy[i].IsActive())
@@ -108,7 +117,7 @@ void ShootMain::Draw()
 					sTitle.reset();
 					enemy[i].Clear();
 				}
-				Print << sTitle;
+				//Print << sTitle;
 			}
 			else enemy[i].Draw();
 	}
@@ -127,6 +136,21 @@ void ShootMain::Draw()
 	if (player.GetHaveBom() > 0)
 	for (auto i : step(player.GetHaveBom()))
 		Circle(Arg::topRight(FILED_X-(10 + 25*i), 60) , 10).draw(ColorF(0.3, 0.8, 0.2));
+	/*if (Key0.down())
+		gameover = true;*/
+	if (gameover)
+	{
+		Rect(0, 300, 800, 200).draw(ColorF(0.2, 0.8));
+		FontAsset(U"main")(U"GAMEOVER\n\n\nPress Space")
+			.drawAt(Vec2(FILED_X/2,FILED_Y/2));
+		FontAsset(U"score")(U"Score:{}\nHighScore:{}"_fmt(score, hScore))
+			.drawAt(Vec2(FILED_X/2,FILED_Y/2 + 10));
+		if (KeySpace.down())
+		{
+			Init();
+			now = 0;
+		}
+	}
 }
 
 void ShootMain::HitBox()
@@ -204,8 +228,14 @@ void ShootMain::HitBox()
 			//playerBox.draw(Palette::Olive);
 			if (enemyBulBox.intersects(playerBox))
 			{
-				bulManager[i].bul[j].Clear();
-				player.Hit();
+				if (player.GetHP() == 0)
+					gameover = true;
+				else
+				{
+					bulManager[i].bul[j].Clear();
+					if (player.Hit())
+						SE[2] = true;
+				}
 			}
 			if (player.IsBomb() && enemyBulBox.intersects(bombBox))
 				bulManager[i].bul[j].Clear();
@@ -226,9 +256,10 @@ void ShootMain::ScoreUp(int p)
 
 void ShootMain::AudioPlay()
 {
-	if (SE[0]) AudioAsset(U"enemyDead").playOneShot(0.4);
-	if (SE[1]) AudioAsset(U"graze").playOneShot(0.8);
-	for (auto i : step(2))
+	if (SE[0]) AudioAsset(U"enemyDead").playOneShot(0.3);
+	if (SE[1]) AudioAsset(U"graze").playOneShot(0.6);
+	if (SE[2]) AudioAsset(U"playerDead").playOneShot(0.5);
+	for (auto i : step(3))
 		SE[i] = false;
 }
 

@@ -24,7 +24,8 @@ public:
 class ShootMain : public scene
 {
 private:
-	bool SE[2];
+	bool gameover = false;
+	bool SE[3];
 	int cnt;
 	int stage;//ˆê–Ê=0
 	Stopwatch sTitle;

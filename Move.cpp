@@ -31,7 +31,7 @@ void Move_00(_enemy* e)
 {
 	e->MoveY(e->GetSpeed());
 }
-//‚¿‚å‚Á‚Æ~‚è‚ÄŽ~‚Ü‚é
+//‚¿‚å‚Á‚Æ~‚è‚ÄŽ~‚Ü‚Á‚Ä‚µ‚Î‚ç‚­‚µ‚½‚çã‚ª‚é
 void Move_01(_enemy* e)
 {
 	if(e->GetCnt() <= 60)
@@ -44,7 +44,7 @@ void Move_02(_enemy* e)
 {
 	e->MoveX(e->GetSpeed());
 }
-//‚¿‚å‚Á‚Æ‰¡ˆÚ“®‚µ‚ÄŽ~‚Ü‚é
+//‚¿‚å‚Á‚Æ‰¡ˆÚ“®‚µ‚ÄŽ~‚Ü‚Á‚Ä‚µ‚Î‚ç‚­‚µ‚½‚çŠO‚Éo‚é
 void Move_03(_enemy* e)
 {
 	if (e->GetCnt() <= 60)
@@ -52,9 +52,11 @@ void Move_03(_enemy* e)
 	else if (e->GetCnt() >= 360)
 		e->MoveX(-(e->GetSpeed()));
 }
-//‚¯‚Á‚±‚¤~‚è‚ÄŽ~‚Ü‚é
+//‚¯‚Á‚±‚¤~‚è‚Ä‚©‚È‚èŽ~‚Ü‚é(ƒ{ƒX—p)
 void Move_04(_enemy* e)
 {
 	if (e->GetCnt() <= 120)
 		e->MoveY(e->GetSpeed());
+	else if (e->GetCnt() >= 720)
+		e->MoveX(-(e->GetSpeed()));
 }

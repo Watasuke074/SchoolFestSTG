@@ -21,15 +21,16 @@ void _player::Clear()
 	for (auto i : step(PLAYER_SHOT_MAX))
 		bul[i].Clear();
 }
-void _player::Hit()
+bool _player::Hit()
 {
-	if (isSA) return;
+	if (isSA) return false;
 	isSA = true;
 	hp--;
 	haveBom = 3;
-	//pos.set(300, 770);
+	pos.set(300, 770);
 	anm = 0;
 	shotTime = 0;
+	return true;
 }
 
 void _player::Update()

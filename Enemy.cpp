@@ -58,6 +58,7 @@ void _enemy::Active(_enemyReady e)
 	 shotCnt = e.shotCnt;
 	      hp = e.hp;
 	    name = e.name;
+		data = e.data;
 		 box = EnemyHitBox(name);
 }
 

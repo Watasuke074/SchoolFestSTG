@@ -43,6 +43,7 @@ void Register()
 	///Audio
 	AudioAsset::Register(U"enemyDead", U"Data/Audio/enemyDead.wav");
 	AudioAsset::Register(U"graze", U"Data/Audio/graze.wav");
+	AudioAsset::Register(U"playerDead", U"Data/Audio/playerDead.wav");
 
 	///Texture
 	//player

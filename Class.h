@@ -81,7 +81,7 @@ class _player
 		virtual void Update();
 		virtual void Draw();
 
-		void Hit();
+		bool Hit();
 		int GetHP() { return hp; };
 		int GetHaveBom() { return haveBom; };
 		bool IsBomb() { return bomb.f; };
@@ -96,8 +96,8 @@ class _player
 //敵
 typedef struct
 {
-	int startCnt; Vec2 pos; int shotKnd, moveKnd, shotCnt, hp; double sp; String name;
-	void SetEnemyReady(int _cnt, Vec2 _pos, int _shotKnd, int _moveKnd, double _sp, int _shotCnt, int _hp, String _name)
+	int startCnt; Vec2 pos; int shotKnd, moveKnd, shotCnt, hp; double sp; String name; Array<double> data;
+	void SetEnemyReady(int _cnt, Vec2 _pos, int _shotKnd, int _moveKnd, double _sp, int _shotCnt, int _hp, String _name, Array<double> _data)
 	{
 		startCnt = _cnt;
 		     pos = _pos;
@@ -107,6 +107,7 @@ typedef struct
 		 shotCnt = _shotCnt;
 		      hp = _hp;
 		    name = _name;
+			data = _data;
 	}
 	void Clear()
 	{
@@ -128,6 +129,8 @@ class _enemy : public _player
 		int box;
 		//画像名
 		String name;
+		//ショット用データ
+		Array<double> data;
 	public:
 		_enemy();
 		void Active(_enemyReady);
@@ -143,6 +146,7 @@ class _enemy : public _player
 		 int GetMoveKnd() { return moveKnd; }
 		String GetName() { return name; }
 		double GetSpeed() { return sp; }
+		double GetData(int i) { return data[i]; }
 };
 class _boss : public _enemy
 {
